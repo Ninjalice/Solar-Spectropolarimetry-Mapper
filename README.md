@@ -8,14 +8,12 @@ the screen plane is used. The series of observations were obtained with the sola
 polarimeter (Low Noise Spectral Polarimeter ver. 4 –LNSP4) hardware set. The scanning
 procedure was represented by the spiral movement of the antenna beam around the calculated
 solar disk centre. Further the maps are constructed after recalculations of observed samples from
-a time-antenna position domain to the screen plane by the regularization with bilinear or
-modified Richardson-Lucy (MLM) methods.
+a time-antenna position domain to the screen plane.
 
 ## Key Functionalities
 
 - Processes data from the VIRAC instrument on the RT-32 radio telescope.
 - Constructs Stokes I and Stokes V maps using spatial scanning procedures for the solar disk.
-- Employs bilinear and modified Richardson-Lucy (MLM) regularization methods for map reconstruction.
 - Offers a user-friendly interface through the `Main.ipynb` Jupyter Notebook.
 
 ## Project Structure

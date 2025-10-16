@@ -68,9 +68,69 @@ Contains the core processing modules:
 3. **Map Generation**: Creates 1D, 2D, and 3D maps of solar brightness and polarization
 4. **Visualization**: Generates publication-ready plots and images saved to the output directories
 
----
+## Example Results
 
-![Sun image](project_image.jpg)
+### Solar Maps at Different Frequencies
+
+#### Stokes I (Intensity) Maps
+
+<table>
+<tr>
+<td align="center">
+<img src="data/examples/IMAGES/2025-05-08T09_15_00/LNSP4-2025-05-08T09_15_00-STOKE_I-4.07GHZ.jpeg" width="300">
+<br><b>4.07 GHz</b>
+</td>
+<td align="center">
+<img src="data/examples/IMAGES/2025-05-08T09_15_00/LNSP4-2025-05-08T09_15_00-STOKE_I-8.40GHZ.jpeg" width="300">
+<br><b>8.40 GHz</b>
+</td>
+<td align="center">
+<img src="data/examples/IMAGES/2025-05-08T09_15_00/LNSP4-2025-05-08T09_15_00-STOKE_I-11.90GHZ.jpeg" width="300">
+<br><b>11.90 GHz</b>
+</td>
+</tr>
+</table>
+
+#### Stokes V (Circular Polarization) Maps
+
+<table>
+<tr>
+<td align="center">
+<img src="data/examples/IMAGES/2025-05-08T09_15_00/LNSP4-2025-05-08T09_15_00-STOKE_V-4.07GHZ.jpeg" width="300">
+<br><b>4.07 GHz</b>
+</td>
+<td align="center">
+<img src="data/examples/IMAGES/2025-05-08T09_15_00/LNSP4-2025-05-08T09_15_00-STOKE_V-8.40GHZ.jpeg" width="300">
+<br><b>8.40 GHz</b>
+</td>
+<td align="center">
+<img src="data/examples/IMAGES/2025-05-08T09_15_00/LNSP4-2025-05-08T09_15_00-STOKE_V-11.90GHZ.jpeg" width="300">
+<br><b>11.90 GHz</b>
+</td>
+</tr>
+</table>
+
+### Time Series Comparison
+
+<table>
+<tr>
+<td align="center">
+<img src="data/examples/IMAGES/2025-05-08T09_15_00/LNSP4-2025-05-08T09_15_00-STOKE_I-6.42GHZ.jpeg" width="250">
+<br><b>09:15 UT</b>
+</td>
+<td align="center">
+<img src="data/examples/IMAGES/2025-05-08T10_31_00/LNSP4-2025-05-08T10_31_00-STOKE_I-6.42GHZ.jpeg" width="250">
+<br><b>10:31 UT</b>
+</td>
+<td align="center">
+<img src="data/examples/IMAGES/2025-05-08T12_01_00/LNSP4-2025-05-08T12_01_00-STOKE_I-6.42GHZ.jpeg" width="250">
+<br><b>12:01 UT</b>
+</td>
+</tr>
+<tr>
+<td colspan="3" align="center"><b>Solar Evolution at 6.42 GHz (Stokes I) - May 8, 2025</b></td>
+</tr>
+</table>
 
 ---
 

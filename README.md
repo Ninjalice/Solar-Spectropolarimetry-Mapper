@@ -132,4 +132,23 @@ Contains the core processing modules:
 
 ---
 
+## Citations
+
+```bibtex
+@article{article,
+author = {Bezrukov, D.},
+year = {2017},
+month = {02},
+pages = {9-14},
+title = {Spectral Polarimetric Observations of the Sun by the VIRAC RT-32 Radio Telescope: First Results},
+volume = {22},
+journal = {Baltic Astronomy},
+doi = {10.1515/astro-2017-0142}
+}
+```
+
+**Reference:** Bezrukov, D. (2017). Spectral Polarimetric Observations of the Sun by the VIRAC RT-32 Radio Telescope: First Results. _Baltic Astronomy_, 22, 9-14. DOI: [10.1515/astro-2017-0142](https://doi.org/10.1515/astro-2017-0142)
+
+---
+
 Made by Endika Aguirre 2024

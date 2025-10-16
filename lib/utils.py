@@ -74,10 +74,10 @@ def seconds_to_time(year, month, day, seconds):
 
 def bintable_to_pandas(file_path, hdu_number):
     try:
-        # Leer la tabla binaria del archivo FITS
+        # Read binary table from FITS file
         table = Table.read(file_path, hdu=hdu_number)
 
-        # Convertir la tabla en un DataFrame de Pandas
+        # Convert table to Pandas DataFrame
         df = table.to_pandas()
        
         return df
@@ -87,19 +87,19 @@ def bintable_to_pandas(file_path, hdu_number):
     
 def bintable_to_pandas_OLD(file_path, hdu_number):
     try:
-        # Leer la tabla binaria del archivo FITS
+        # Read binary table from FITS file
         table = Table.read(file_path, hdu=hdu_number)        
-        # Crear una lista para almacenar las filas descomprimidas
+        # Create a list to store the decompressed rows
         rows = []
-        # Iterar sobre cada columna de la tabla
+        # Iterate over each column of the table
         for colname in table.colnames:
-            # Verificar si la columna contiene un array
+            # Check if the column contains an array
             if isinstance(table[colname][0], np.ndarray):
-                # Iterar sobre cada elemento del array
+                # Iterate over each element of the array
                 for i in range(len(table[colname][0])):
-                    # Crear un diccionario para la nueva fila
+                    # Create a dictionary for the new row
                     new_row_dict = {}
-                    # Iterar sobre cada columna nuevamente para llenar la nueva fila
+                    # Iterate over each column again to fill the new row
                     for colname_inner in table.colnames:
                         if isinstance(table[colname_inner][0], np.ndarray):
                             new_row_dict[colname_inner] = table[colname_inner][0][i]
@@ -107,12 +107,12 @@ def bintable_to_pandas_OLD(file_path, hdu_number):
                             new_row_dict[colname_inner] = table[colname_inner][0]
                     rows.append(new_row_dict)
             else:
-                # Si la columna no contiene un array, agregar la fila original
+                # If the column doesn't contain an array, add the original row
                 row_dict = {colname: table[colname][0] for colname in table.colnames}
                 rows.append(row_dict)
-            # Convertir la lista de diccionarios en una nueva tabla
+            # Convert the list of dictionaries to a new table
             table_descompressed = Table(rows)        
-            # Convertir la tabla filtrada en un DataFrame de Pandas
+            # Convert the filtered table to a Pandas DataFrame
             df = table_descompressed.to_pandas()     
 
             return df 
@@ -123,34 +123,34 @@ def bintable_to_pandas_OLD(file_path, hdu_number):
      
 def bintable_to_pandas_OLD_BROKEN(file_path, hdu_number):
     try:
-        # Leer la tabla binaria del archivo FITS
+        # Read binary table from FITS file
         table = Table.read(file_path, hdu=hdu_number)     
-        # Crear una lista para almacenar las filas descomprimidas
+        # Create a list to store the decompressed rows
         rows = []
 
-        # Iterar sobre cada fila de la tabla
+        # Iterate over each row of the table
         for row_index, row in enumerate(table):
-            # Crear un diccionario para la fila original
+            # Create a dictionary for the original row
             row_dict = {}
-            # Iterar sobre cada columna
+            # Iterate over each column
             for colname in table.colnames:
-                # Verificar si la columna contiene un array y si es la primera fila
+                # Check if the column contains an array and if it's the first row
                 if isinstance(row[colname], np.ndarray) and row_index == 0:
-                    # Si es la primera fila y es un array, agregar cada elemento como una fila adicional
+                    # If it's the first row and it's an array, add each element as an additional row
                     for i, value in enumerate(row[colname]):
-                        new_row_dict = row_dict.copy()  # Copiar el diccionario de la fila original
-                        new_row_dict[colname] = value  # Actualizar el valor de la columna con el elemento del array
-                        rows.append(new_row_dict)  # Agregar la fila a la lista de filas
+                        new_row_dict = row_dict.copy()  # Copy the original row dictionary
+                        new_row_dict[colname] = value  # Update the column value with the array element
+                        rows.append(new_row_dict)  # Add the row to the list of rows
                 else:
-                    # Si no es un array o no es la primera fila, agregar el valor a la fila original
+                    # If it's not an array or not the first row, add the value to the original row
                     row_dict[colname] = row[colname]
-            # Agregar la fila original a la lista de filas
+            # Add the original row to the list of rows
             rows.append(row_dict)
 
-        # Convertir la lista de diccionarios en una nueva tabla
+        # Convert the list of dictionaries to a new table
         table_descompressed = Table(rows)
 
-        # Convertir la tabla filtrada en un DataFrame de Pandas
+        # Convert the filtered table to a Pandas DataFrame
         df = table_descompressed.to_pandas()       
 
         return df
@@ -160,13 +160,13 @@ def bintable_to_pandas_OLD_BROKEN(file_path, hdu_number):
 
 def getFinalProcessedData(observation, sunPositionDf, data_dfs):
 
-    # Convertir Julian_Time a objetos Time de astropy
+    # Convert Julian_Time to astropy Time objects
     time = Time(sunPositionDf['UTC'], format='jd')
 
-    # Calcular las horas decimales con precisión de milisegundos para cada valor
+    # Calculate decimal hours with millisecond precision for each value
     decimal_seconds = [time_to_seconds(datetime_obj) for datetime_obj in time.datetime]
 
-    # Agregar las horas decimales al DataFrame
+    # Add decimal hours to DataFrame
     sunPositionDf['UTC'] = np.round(np.array(decimal_seconds).astype(float), 3)
 
     columns = sunPositionDf.columns
@@ -178,7 +178,7 @@ def getFinalProcessedData(observation, sunPositionDf, data_dfs):
     interpolated_df = pd.DataFrame(interpolated_values, columns=columns)
     pd.set_option('display.float_format', '{:.10f}'.format)
 
-    # Diccionario para almacenar los DataFrames procesados por banda
+    # Dictionary to store processed DataFrames by band
     band_processed_dfs = {}
 
     for band, data_df in data_dfs.items():
@@ -253,7 +253,7 @@ def getFinalProcessedData(observation, sunPositionDf, data_dfs):
 
 
 def rename_columns(data_df):
-    # Renombrar las columnas eliminando los dos primeros números y manteniendo los prefijos LCP y RCP
+    # Rename columns by removing the first two numbers and keeping LCP and RCP prefixes
     renamed_columns = {
         col: f"{col.split()[0]} {col.split()[2]}"
         if col.startswith(('LCP', 'RCP'))
@@ -262,7 +262,7 @@ def rename_columns(data_df):
     }
     data_df = data_df.rename(columns=renamed_columns)
 
-     # Tabla de mapeo de números a bandas
+     # Band mapping table from numbers to bands
     band_mapping = {
         '01': '4.07GHZ',
         '04': '6.42GHZ',
@@ -271,7 +271,7 @@ def rename_columns(data_df):
         '11': '11.90GHZ'
     }
 
-    # Renombrar columnas UTC
+    # Rename UTC columns
     renamed_columns = {
         col: f'UTC {col.split()[1]} {band_mapping[col.split()[2]]}' 
         if col.startswith('UTC') and col.split()[2] in list(band_mapping.keys())
@@ -287,14 +287,14 @@ def processData(data_df):
 
     data_df = rename_columns(data_df)
     
-    # Lista de bandas a procesar (sin los dos primeros números)
+    # List of bands to process (without the first two numbers)
     bands = ['4.07GHZ', '6.42GHZ', '8.40GHZ', '9.80GHZ', '11.90GHZ']
 
-    # Diccionario para almacenar los DataFrames de cada banda
+    # Dictionary to store DataFrames for each band
     band_dfs = {}
 
     for band in bands:
-        # Extracción y redondeo de UTC
+        # UTC extraction and rounding
         UTC_RCP = np.round(data_df[f'UTC RCP {band}'].dropna() * 3600, 3)
         UTC_LCP = np.round(data_df[f'UTC LCP {band}'].dropna() * 3600, 3)
         RCP = data_df[f'RCP {band}'].dropna()
@@ -307,14 +307,14 @@ def processData(data_df):
         # print(STOKE_V_11_4_11_90GHZ.size)
         # print(UTC_RCP_11.size)      
 
-        # Crear DataFrame para la banda actual
+        # Create DataFrame for the current band
         band_df = pd.DataFrame({
             f'UTC_{band}': UTC_RCP.values,          
             f'RCP_{band}': RCP,
             f'LCP_{band}': LCP
         })
 
-        # Almacenar en el diccionario
+        # Store in dictionary
         band_dfs[band] = band_df
 
     return band_dfs
@@ -340,7 +340,7 @@ def process_all_heliocentric_coordinates(band_processed_dfs, observation):
         band_df['az_anten'] = az_anten
         band_df['el_anten'] = el_anten
 
-        # Iterar sobre los diferentes momentos de tiempo
+        # Iterate over the different time moments
         for index, row in band_df.iterrows():
             # Convert the AltAz coordinates from the DataFrame from degrees to radians
             el_deg = row['el_anten'] * u.deg
@@ -349,7 +349,7 @@ def process_all_heliocentric_coordinates(band_processed_dfs, observation):
             # Set the observation time
             obstime = row['isoT_time']
 
-            # Convertir a coordenadas heliocéntricas
+            # Convert to heliocentric coordinates
             frame_altaz = AltAz(obstime=Time(obstime), location=observation.antenna.location, pressure=observation.weather.pressure , temperature=observation.weather.temperature, relative_humidity=observation.weather.relative_humidity ,obswl=observation.weather.obswl)
             sun_helio = SkyCoord(alt=el_deg, az=az_deg, observer='earth', distance=sun.earth_distance(obstime), frame=frame_altaz).transform_to(frames.Helioprojective)
 
@@ -363,7 +363,7 @@ def process_all_heliocentric_coordinates(band_processed_dfs, observation):
 
         return band_df
     
-    # Aplicar la función de procesamiento a cada DataFrame en el diccionario
+    # Apply the processing function to each DataFrame in the dictionary
     for band, df in band_processed_dfs.items():
         band_processed_dfs[band] = process_heliocentric_coordinates(df, observation)
     

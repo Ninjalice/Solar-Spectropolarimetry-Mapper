@@ -121,42 +121,7 @@ def bintable_to_pandas_OLD(file_path, hdu_number):
         print("Error:", e)
         return None
      
-def bintable_to_pandas_OLD_BROKEN(file_path, hdu_number):
-    try:
-        # Read binary table from FITS file
-        table = Table.read(file_path, hdu=hdu_number)     
-        # Create a list to store the decompressed rows
-        rows = []
 
-        # Iterate over each row of the table
-        for row_index, row in enumerate(table):
-            # Create a dictionary for the original row
-            row_dict = {}
-            # Iterate over each column
-            for colname in table.colnames:
-                # Check if the column contains an array and if it's the first row
-                if isinstance(row[colname], np.ndarray) and row_index == 0:
-                    # If it's the first row and it's an array, add each element as an additional row
-                    for i, value in enumerate(row[colname]):
-                        new_row_dict = row_dict.copy()  # Copy the original row dictionary
-                        new_row_dict[colname] = value  # Update the column value with the array element
-                        rows.append(new_row_dict)  # Add the row to the list of rows
-                else:
-                    # If it's not an array or not the first row, add the value to the original row
-                    row_dict[colname] = row[colname]
-            # Add the original row to the list of rows
-            rows.append(row_dict)
-
-        # Convert the list of dictionaries to a new table
-        table_descompressed = Table(rows)
-
-        # Convert the filtered table to a Pandas DataFrame
-        df = table_descompressed.to_pandas()       
-
-        return df
-    except Exception as e:
-        print("Error:", e)
-        return None
 
 def getFinalProcessedData(observation, sunPositionDf, data_dfs):
 

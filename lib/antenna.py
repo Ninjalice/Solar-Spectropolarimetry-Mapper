@@ -14,8 +14,8 @@ class Antenna:
         self.elevation = None
         self.location = None
         self.description = description
-        self.bands = []
-        self.diameter = None  # in meters
+        self.bands = bands
+        self.diameter = diameter  # in meters
         
     def set_location(self, latitude, longitude, elevation):
         self.latitude = latitude
@@ -25,6 +25,6 @@ class Antenna:
 
 
 class RT32(Antenna):
-    def __init__(self, description="RT-32 Antenna"):
-        super().__init__(description=description , bands=['4.07GHZ', '6.42GHZ', '8.40GHZ', '9.80GHZ', '11.90GHZ'], diameter=32.0)
+    def __init__(self, description="RT-32 Antenna" , bands=['4.07GHZ', '6.42GHZ', '8.40GHZ', '9.80GHZ', '11.90GHZ'], diameter=32.0):
+        super().__init__(description=description , bands=bands, diameter=diameter)
     

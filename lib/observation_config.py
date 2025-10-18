@@ -7,6 +7,7 @@ from datetime import datetime
 import numpy as np
 from astropy.time import Time
 from astropy.coordinates import AltAz, get_sun
+import sunpy
 from lib.utils import time_to_seconds
 
 
@@ -49,6 +50,9 @@ class ObservationConfig:
                   relative_humidity=self.weather.relative_humidity,
                   obswl=self.weather.obswl)
         )
+          
+        self.P_angle = sunpy.coordinates.sun.P(self.start_time).to('deg').value
+
         self.az_start = sun_altaz.az
         self.el_start = sun_altaz.alt
 

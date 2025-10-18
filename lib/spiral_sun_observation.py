@@ -120,9 +120,9 @@ class SpiralSunObservation:
         
         # Process FITS file
         band_processed_helio_dfs = self.data_processor.process_fits_file(fit_file_path, sun_position_df)
-        
+              
         # Prepare output directory
-        output_path = self.data_processor.prepare_output_directory(images_path)
-        
+        output_path = self.data_processor.prepare_output_directory(images_path)     
+
         # Create and save solar maps
-        return self.plotter.create_solar_maps_gaussian(band_processed_helio_dfs, output_path)
+        return self.plotter.create_solar_maps_gaussian(band_processed_helio_dfs, output_path , rotation=True, P_angle=self.config.P_angle)

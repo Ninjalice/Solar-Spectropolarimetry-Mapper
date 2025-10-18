@@ -9,6 +9,13 @@ from sunpy.coordinates import frames, sun
 
 
 
+def rotate_coordinates(x, y, angle_deg):
+    angle_rad = np.deg2rad(angle_deg)
+    x_rot = x * np.cos(angle_rad) - y * np.sin(angle_rad)
+    y_rot = x * np.sin(angle_rad) + y * np.cos(angle_rad)
+    return x_rot, y_rot
+
+
 def RT32_SUN_PARA(utc , location):
     # Define constants
     lat_rt32 = 57.5535171694  # RT32 geographic latitude in degrees

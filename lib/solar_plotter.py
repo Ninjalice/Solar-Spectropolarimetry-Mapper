@@ -11,6 +11,7 @@ from astropy.coordinates import SkyCoord
 from scipy.interpolate import Rbf
 from scipy.ndimage import gaussian_filter
 
+from lib.utils import rotate_coordinates
 
 class SolarMapPlotter:
     """Creates solar maps and visualizations from processed observational data."""
@@ -68,7 +69,7 @@ class SolarMapPlotter:
         print('Solar maps created successfully!')
         return output_path
     
-    def create_solar_maps_gaussian(self, band_processed_helio_dfs, output_path):
+    def create_solar_maps_gaussian(self, band_processed_helio_dfs, output_path , rotation =False, P_angle=0):
         """
         Create solar maps using Gaussian filtering.
         
@@ -80,13 +81,18 @@ class SolarMapPlotter:
             str: Path where images were saved
         """
         print('Creating solar maps with Gaussian filtering...')
-        
+        print(f'Rotation applied: {rotation}, P angle: {P_angle}')
+
         for band in self.bands:
             sun_x = band_processed_helio_dfs[band]['tx_helio_anten']
             sun_y = band_processed_helio_dfs[band]['ty_helio_anten']
             stoke_i = band_processed_helio_dfs[band][f'STOKE_I_{band}'].values
             stoke_v = band_processed_helio_dfs[band][f'STOKE_V_{band}'].values
 
+            # Note: we rotate with -P_angle to correct the rotation
+            if rotation:
+                sun_x, sun_y = rotate_coordinates(sun_x, sun_y, -P_angle)
+            
             # Create interpolated maps using Gaussian filtering
             grid_step = 2
             size = 1500
